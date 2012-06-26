@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>4D Result</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta name="Generator" content="GreaseMonkey - Copyright (C) 2008  Open Source Matters. All rights reserved." />
+<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/userLotory.js" type="text/javascript"></script>
+<link href="lotoryCss.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+<script>
+$("body").ready(function(){
+	init();
+	})
+</script>
+</head>
+
+<body id="myBody" >
+<div>
+	<div id="userDate">
+ 
+
+<div id="printDay"></div>
+<div id="printPrice">30¢</div>
+<div id="printDate"></div>
+
+	</div>
+
+<!-- Magnum Section -->	
+	<div id="magnum">
+	<div class="btnAct">
+		<img class="imgLogoPre" src="./images/magnumLogoR.gif"/>
+		<br />Magnum Latest Result<br />		
+		<div id="magnumAct">
+		<img src="./images/dw.png" class="fleft" onmouseout='this.src="./images/dw.png"' onmouseover='this.src="./images/dw2.png"'/>
+<span class="insideHint"><br />Click to view the result</span>
+</div>
+<div class="delMe"><img src="./images/del.png" class="fleft" onmouseout='this.src="./images/del.png"' onmouseover='this.src="./images/delo.png"'/><span class="insideHint"><br />Remove me</span></div>
+	</div>
+	<!-- <div id="magnumDownload" class="intraactive">Get Latest</div> -->
+
+		<img class="imgLogo" src="./images/magnumLogo.gif"/>
+		<div class="date">
+		<dl id="magnumDate">
+		</dl>
+		</div>
+		<div class="top3">
+			<dl class="top3Label">
+				<dt>&nbsp;</dt>
+				<dt class="top3middle">&nbsp;</dt>
+				<dt>&nbsp;</dt>
+			</dl>
+			<dl class="top3Value" id="magnumTop3">
+
+			</dl>
+		</div>
+		<div class="result">
+			<h3>特別獎</h3>
+			<div class="resultContainer" id="magnumSpe">
+			</div>
+		</div>
+		<div class="result" >
+			<h3>安慰獎</h3>
+			<div class="resultContainer" id="magnumCon">
+			</div>
+		</div>
+
+	</div>
+<!--  End Magnum Section -->	
+
+<!-- pmp Section -->	
+	<div id="pmp">
+	<div class="btnAct">
+		<img class="imgLogoPre" src="./images/pmpLogo2.gif"/>
+		<br />PMP Latest Result<br />		
+		<div id="pmpAct" >
+			<img src="./images/dw.png" class="fleft" onmouseout='this.src="./images/dw.png"' onmouseover='this.src="./images/dw2.png"'/>
+			<span class="insideHint"><br />Click to view the result</span>
+		</div>
+	<div class="delMe"><img src="./images/del.png" class="fleft" onmouseout='this.src="./images/del.png"' onmouseover='this.src="./images/delo.png"'/><span class="insideHint"><br />Remove me</span></div>
+	</div>
+		<img class="imgLogo" src="./images/pmpLogo.gif"/>
+		<div class="datePmp"id="datePmp">
+		</div>
+		<h5><big>3D</big>馬會千字</h5>
+		<div class="top3Pmp">
+			<dl class="top3Label">
+				<dt>&nbsp;</dt>
+				<dt class="top3middle">&nbsp;</dt>
+				<dt>&nbsp;</dt>
+			</dl>
+			<dl class="top3Value" id="pmp3dTop3">
+			</dl>
+		</div>
+		<h5><big>1+3D</big>馬會萬字</h5>
+		<div class="top3Pmp">
+			<dl class="top3Label">
+				<dt>&nbsp;</dt>
+				<dt class="top3middle">&nbsp;</dt>
+				<dt>&nbsp;</dt>
+			</dl>
+			<dl class="top3Value" id="pmp4dTop3">
+			</dl>
+		</div>
+		<div class="resultPmp">
+			<h3>特別獎</h3>
+			<div class="resultContainer" id="pmp4dSpe">
+			</div>
+		</div>
+		<div class="resultPmp">
+			<h3>安慰獎</h3>
+			<div class="resultContainer" id="pmp4dCon">
+			</div>
+		</div>
+
+	</div>
+	<!-- End pmp Section -->
+
+<!-- Singpore 4D Section -->	
+	<div id="sg4d">
+	<div class="btnAct">
+		<img class="imgLogoPre" src="./images/sg4dLogo2.gif"/>
+		<br />SingPore 4D Latest Result<br />		
+		<div id="sg4dAct" >
+			<img src="./images/dw.png" class="fleft" onmouseout='this.src="./images/dw.png"' onmouseover='this.src="./images/dw2.png"'/>
+			<span class="insideHint"><br />Click to view the result</span>
+		</div>
+	<div class="delMe"><img src="./images/del.png" class="fleft" onmouseout='this.src="./images/del.png"' onmouseover='this.src="./images/delo.png"'/><span class="insideHint"><br />Remove me</span></div>
+	</div>
+		<img class="imgLogo" src="./images/sg4dLogo.gif"/>
+		<div class="date">
+		<dl id="sg4dDate">
+		</dl>
+		</div>
+		<div class="top3">
+			<dl class="top3Label">
+				<dt>&nbsp;</dt>
+				<dt class="top3middle">&nbsp;</dt>
+				<dt>&nbsp;</dt>
+			</dl>
+			<dl class="top3Value" id="sg4dTop3">
+			</dl>
+		</div>
+		<div class="result">
+			<h3>特別獎</h3>
+			<div class="resultContainer" id="sg4dSpe">
+			</div>
+		</div>
+		<div class="result">
+			<h3>安慰獎</h3>
+			<div class="resultContainer" id="sg4dCon">
+			</div>
+		</div>
+	</div>
+	
+<!--  End Singpore 4d Section -->	
+
+<!--  totoSport 4d Section -->
+<div id="totoAll">
+<div class="btnAct2">
+		<img class="imgLogoPre" src="./images/toto4dLogo2.gif"/>
+		<br />TotoSport Latest Result<br />		
+		<div id="totoAct" >
+			<img src="./images/dw.png" class="fleft" onmouseout='this.src="./images/dw.png"' onmouseover='this.src="./images/dw2.png"'/>
+			<span class="insideHint"><br />Click to view the result</span>
+		</div>
+	<div class="delMe"><img src="./images/del.png" class="fleft" onmouseout='this.src="./images/del.png"' onmouseover='this.src="./images/delo.png"'/><span class="insideHint"><br />Remove me</span></div>
+	</div>
+	<div id="toto4d">
+	
+		<img class="imgLogo" src="./images/toto4dLogo.gif"/>
+		<div class="date">
+		<dl id="toto4dDate">
+		</dl>
+		</div>
+		<div class="top3">
+			<dl class="top3Label">
+				<dt>&nbsp;</dt>
+				<dt class="top3middle">&nbsp;</dt>
+				<dt>&nbsp;</dt>
+			</dl>
+			<dl class="top3Value" id="toto4dTop3">
+			</dl>
+		</div>
+		<div class="result">
+			<h3>特別獎</h3>
+			<div class="resultContainer" id="toto4dSpe">
+			</div>
+		</div>
+		<div class="result">
+			<h3>安慰獎</h3>
+			<div class="resultContainer" id="toto4dCon">
+			</div>
+		</div>
+		<!--
+		<div class="result">
+			<h3>4D Jackpot</h3>
+			<div class="resultContainer" id="toto4djackpot">
+				<h4>2488+1366</h4>
+				<h4>2488+4927</h4>
+				<h4>1366+4927</h4>
+				<h4>1366+2488</h4>
+				<h4>4927+2488</h4>
+				<h4>4927+1366</h4>
+			</div>
+		</div>
+		-->
+	</div>
+<!--  End totoSport 4d Section -->	
+
+<!--  totoJackpot 4d Section -->
+	<div id="totoJackpot">
+	<div id="totoJackpotHeader">
+		<div class="dateToto">
+		<dl id="totoJackpotDate">
+		</dl>
+		</div>
+	</div>
+	<h2>多多博彩给您更多种奖机会！</h2>
+	<div style="height:10px;"></div>
+	<div class="sectionContainer">
+		<div class="totoIconSuper"></div>
+		<div id="totoMega">
+		<table class="jackpotResult">
+			<tr id="totoMegaResult">
+
+			</tr>
+		</table>
+		</div>
+
+ 		<div id="amount0" class="jackpotAmoutBg">RM ##,###,###.##</div>	
+	<div style="height:8px;"></div>
+
+ </div>
+	<div class="sectionContainer">
+		<div class="totoIconJackpot"></div>
+		<div id="totoSuper">
+		<table class="jackpotResult">
+			<tr id="totoSuperResult">
+
+			</tr>
+		</table>
+		</div>
+
+ 		<div id="amount1"class="jackpotAmoutBg">RM ##,###,###.##</div>	
+	<div style="height:8px;"></div>
+
+ </div>
+	<div class="sectionContainer">
+		<div class="totoIconMaga"></div>	
+		<div id="toto42">
+		<table class="jackpotResult">
+			<tr id="totoJackpotResult">
+
+			</tr>
+		</table>
+		</div>
+		<div id="amount2"class="jackpotAmoutBg">RM ###,###.##</div>
+ 		<div id="amount3"class="jackpotNextAmout">RM ##,###,###.##</div>	
+<!-- <div id="amount4"class="jackpotNextAmout">RM ###,###.##</div> -->
+
+ </div>
+	<div class="sectionContainer" >
+	<div class="wrapper abit">
+	<div class="nowrap">
+		<div class="totoIcon5D"></div>	
+	</div>
+	<div class="nowrap">
+			<div class="fl prize2">次獎</div>
+		<table class="toto5dResultRest">
+			<tr name="result5d2ndContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+		</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2">三獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result5d3rdContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+	</div>
+
+	</div>
+	<div class="wrapper">
+
+		<div id="toto5d">
+					
+<div class="nowrap">
+		<div class="fl prize1">首獎</div>
+		<table class="toto5dResult fl">
+			<tr name="result5dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+		</table>
+	</div>
+	<div class="nowrap">
+			<div class="fl prize2 indent">四獎</div>
+		<table class="toto5dResultRest">
+			<tr name="result5dContainer">
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+		</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2 indent">五獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result5dContainer">
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2 indent">六獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result5dContainer">
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+	</div>
+		</div>
+	</div>
+	<div  style="clear:both;"></div>
+	</div>
+	
+	<!-- 6D section -->
+	<div class="sectionContainer" style="border:none;">
+
+			<div id="toto6d">
+			<div class="nowrap">
+
+		<div class="totoIcon6D"></div>	
+				<div class="fl prize1 abitTop">首獎</div>
+		<table class="toto5dResult fl abitTop">
+			<tr name="result6dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+		</table>
+	<div  style="clear:both;"></div>
+</div>
+		</div>
+
+	<div class="wrapper abit">
+	<div class="nowrap">
+			<div class="fl prize2">次獎</div>
+		<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td class="blank">#</td>
+			</tr>
+		</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2">三獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+			</tr>
+	</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2">四獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+			</tr>
+	</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2">五獎</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td>#</td>
+				<td>#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+			</tr>
+	</table>
+	</div>
+
+	</div>
+	<div class="wrapper">			
+	<div class="nowrap">
+			<div class="fl prize2 indent6">或</div>
+		<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+		</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2 indent6">或</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2 indent6">或</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+
+	</div>
+	<div class="nowrap">
+				<div class="fl prize2 indent6">或</div>
+
+	<table class="toto5dResultRest">
+			<tr name="result6dContainer">
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td class="blank">#</td>
+				<td>#</td>
+				<td>#</td>
+			</tr>
+	</table>
+
+	</div>
+		</div>
+
+			<div  style="clear:both;"></div>
+
+	</div>
+</div>
+<!--  End totoJackpot 4d Section -->	
+</div>
+</div>
+</body>
+</html>

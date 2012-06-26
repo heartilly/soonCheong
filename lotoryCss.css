@@ -1,0 +1,494 @@
+﻿html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 100%;
+	line-height: 1;
+	font-family: inherit;
+	text-align: left;
+
+}
+body{	background:#ffffff;}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+ol,ul {
+	list-style: none;
+}
+q:before,q:after,
+blockquote:before,blockquote:after {
+	content: "";
+}
+/* end reset browser */
+h3{
+	font-size:1.7em;
+	font-weight:bold;
+	padding:0 5px 8px 5px;
+	border-bottom:2px solid #000000;
+	}
+h5{
+margin:0 10px;
+	font-size:1.2em;
+	font-weight:bold;
+	padding:4px 5px 0px 5px;
+	}
+body{
+
+font-family:arial;
+font-size:1em;}
+
+div{border:0px solid white}
+.delMe{
+cursor:pointer;
+margin:20px 0 0 0;
+}
+#totoAct,#magnumAct,#pmpAct,#sg4dAct{
+cursor:pointer;
+overflow:hidden;
+}
+.imgLogo{
+margin-bottom:5px;
+}
+.imgLogoPre{
+float:right;
+margin:0 10px 10px 10px;
+}
+#myBody{
+background:#FFFFFF;
+width:1101px;
+}
+#upper,#bottom{
+width:100%;
+float:left;
+}
+
+#userDate,#magnum,#pmp,#sg4d,#toto4d,#totoJackpot{
+	float:left;
+	margin:1px;
+	}
+#totoAll{
+float:left;
+width:693px;
+}
+#magnum{
+ /*background:url(bg.gif);*/
+ }
+#userDate{
+width:380px;
+height:755px;
+
+}
+#magnum,#pmp,#sg4d,#toto4d{
+width:305px;
+height:755px;
+border:1px solid #111111;
+}
+#totoJackpot{
+width:378px;
+height:755px;
+border:1px solid #111111;
+}
+.date,.datePmp{
+margin:0 10px;
+border-width:2px;
+border-color: #000000;
+border-style:solid none;
+clear:both;
+height:40px;
+}
+.top3,.top3Pmp{
+background:url(./images/top3Containerbg.gif);
+width:255px;
+height:120px;
+clear:both;
+}
+.top3{
+margin:30px 25px 25px 25px;
+}
+.top3Pmp{
+margin:0 25px 5px 25px;
+}
+.top3Label,.top3Value{
+width:50%;
+float:left;
+}
+.top3 dt,.top3Pmp dt{
+font-size:1.9em;
+padding:4px 30px;
+}
+.top3Value .top3middle{
+border-width:2px;
+border-style:solid none;
+border-color:#000000;
+}
+.top3Label .top3middle{
+border-width:2px;
+border-style:solid none;
+border-color:#ffffff;
+}
+.top3Label{
+background:url(./images/top3Labelbg.gif) no-repeat;
+}
+.top3Value dt{
+font-weight:bold;
+}
+
+.date dl{
+height:40px;
+}
+.datePmp dl{
+padding:0 15px;
+height:40px;
+float:left;
+}
+.datePmp dt{
+margin: 1px 0;
+}
+.date dt,.dateToto dt{
+float:left;
+display:block;
+margin:10px 0;
+}
+.date strong,.datePmp strong,.dateToto strong{
+font-size:0.8em;
+vertical-align:2px;
+}
+
+.result{
+margin:25px 10px 0;
+height:30px;
+clear:both;
+width:290px;
+}
+.resultPmp{
+margin:5px 10px 0;
+height:30px;
+clear:both;
+width:290px;
+}
+.result .resultContainer{
+margin:10px 10px 20px;
+float:left;
+}
+.resultPmp .resultContainer{
+margin:5px 0px 5px 0px;
+float:left;
+}
+.result h4,.resultPmp h4{
+font-size:1.6em;
+font-weight:bold;
+}
+.result h4{
+margin:6px 15px;
+float:left;
+}
+.resultPmp h4{
+margin:6px;
+display:inline-block;
+width:20%;
+}
+
+#totoJackpot{
+/* background:url(totobg.gif)
+ */}
+
+#totoJackpotHeader{
+background:url(./images/totoLogo.gif);
+width:370px;
+height:83px;
+}
+.dateToto {
+border-color:#000000;
+border-style:solid none none;
+border-width:2px;
+clear:both;
+left:80px;
+padding:0 10px;
+position:relative;
+top:55px;
+width:260px;
+}
+.dateJackpotToto{
+left:60px !important;
+}
+
+.dateToto dt{
+float:left;
+display:block;
+margin:5px 0;
+}
+h2{
+font-size:1.3em;
+text-align:center;
+padding:5px 0;
+display:none;
+}
+.sectionContainer{
+margin:0 3px;
+padding: 8px 0;
+border-bottom:2px solid #000000;
+}
+#totoMega,#totoSuper,#toto42{
+/*float:left;*/
+
+}
+#toto5d{
+width:100%;
+float:none;
+}
+#toto6d{
+width:100%;
+margin-top:5px;
+margin-left:8px;
+}
+.wrapper{
+margin-top:9px;
+float:left;
+}
+.abit{
+margin-left:8px;
+}
+.fl{
+float:left;
+}
+.abitTop{
+margin-top:10px;
+}
+.prize1{
+font-size:1.2em;
+font-weight:bold;
+padding:7px 10px 7px 0;
+}
+.prize2{
+font-size:1.0em;
+font-weight:bold;
+padding:5px 3px 4px 0;
+}
+.indent{
+text-indent:50px;
+}
+.indent6{
+margin-left:20px;
+
+}
+.nowrap{
+clear:both;
+}
+.jackpotResult{
+margin:5px 0 0 20px;
+}
+td.blank{
+background:#c9c9c9;
+color:#c9c9c9;
+border-color:#ffffff !important;
+
+}
+.toto5dResult{
+border:1px solid #000000;
+}
+.toto5dResult td{
+width:25px;
+height:30px;
+font-size:1.7em;
+padding:2px;
+font-family:Rock Well Condensed,impact;
+text-align:center;
+/* border-width:1px;
+border-color:#000000;
+border-style:solid */
+}
+table.toto5dResultRest{
+	border-collapse:separate ;
+	border-spacing: 1px;
+	}
+.toto5dResultRest td{
+width:26px;
+height:25px;
+font-size:1.2em;
+font-family:Rock Well Condensed,impact;
+text-align:center;
+border-width:1px;
+border-color:#000000;
+border-style:solid
+}
+.jackpotResult td{
+background:transparent url(./images/bgCircle.gif) no-repeat center center;
+width:35px;
+height:35px;
+font-size:1.5em;
+font-family:Rock Well Condensed,impact;
+text-align:center;
+padding:2px;
+}
+td.additional{
+width:5px;
+background:none;
+}
+.jackpotAmoutBg{
+background:transparent url(./images/jackpotAmoutBg.gif) no-repeat;
+clear:both;
+color:#FFFFFF;
+font-size:1.25em;
+height:30px;
+left:150px;
+margin: 0;
+padding:5px 13px 0px 13px;
+position:relative;
+top:0px;
+width:191px;
+}
+.jackpotNextAmout{
+top:0px;
+font-size:1.1em;
+font-weight:bold;
+width:191px;
+text-align:center;
+position:relative;
+left:150px;
+}
+#totoMega big{
+background:transparent url(./images/bgCircle.gif) no-repeat;
+width:39px;
+height:39px;
+font-family:impact;
+font-size:1.5em;
+padding:0 0px;
+}
+.totoIconMaga{
+background:transparent url(./images/totoIconJackpot.gif) no-repeat 0px -2px;
+width:107px;
+height:45px;
+float:left;
+}
+.totoIconSuper{
+background:transparent url(./images/totoIconJackpot.gif) no-repeat -260px 0;
+width:107px;
+height:45px;
+float:left;
+}
+.totoIconJackpot{
+background:transparent url(./images/totoIconJackpot.gif) no-repeat -125px 0;
+width:107px;
+height:45px;
+float:left;
+}
+.totoIcon5D{
+background:transparent url(./images/totoIcon5d6d.gif) no-repeat 0 0;
+width:64px;
+height:57px;
+float:left;
+margin-right:90px;
+}
+.totoIcon6D{
+background:transparent url(./images/totoIcon5d6d.gif) no-repeat -62px 0;
+width:64px;
+height:57px;
+float:left;
+margin-right:30px;
+}
+.btnAct{
+color:#FFFFFF;
+font-size:45px;
+position:absolute;
+width:305px;
+height:755px;
+margin:0px;
+background:#000000;
+/* opacity:0.5; */
+}
+.insideHint{
+font-size:50%;
+text-decoration:underline;
+}
+.fleft{
+float:left;
+margin:5px;
+}
+.systemInfo{
+font-size:60%;
+color:#c9c9c9;
+}
+.done{
+color:#97CC5E;
+}
+.alert2{
+font-size:60%;
+color:#ff1199;
+padding:20px;
+font-weight:bold;
+}
+.btnAct2{
+color:#FFFFFF;
+font-size:45px;
+position:absolute;
+width:682px;
+height:757px;
+margin:0px;
+background:#000000;
+z-index:10;
+/* opacity:0.5; */
+}
+.intraactive{
+position:absolute;
+padding:20px;
+z-index:1000;
+color:red;
+cursor:pointer;
+background:transparent url(./images/dw2.png) no-repeat 130px;
+height:150px;
+width:305px;
+top:150px;
+}
+.intraactive:hover{
+background:transparent url(./images/dw.png) no-repeat 130px;
+}
+#printDay{
+font-family:impact;
+font-size:113px;
+margin:20px 5px 5px 5px;
+text-align:center;
+text-transform:uppercase;
+}
+#printPrice{
+float:left;
+font-family:Eras ITC;
+font-size:120px;
+font-weight:bold;
+line-height:140px;
+margin:0 5px 30px 10px;
+}
+#printDate{
+float:right;
+font-size:110px;
+font-family:Impact;
+margin:20px 0 0 ;
+-moz-transform:rotate(90deg);
+width:120px;
+position:relative;
+top:0px;
+}
+.obj{
+width:120px;
+height:600px;
+background:#ffffff;
+}
+#amount3{display:none;}
+/* #printDate,.obj{
+height:100%;
+} */
+/*.btnAct:hover{
+background:#c9c9c9;
+}*/
+/* {
+width:310px;
+} */
+
+/*
+#toto4d .top3{margin:10px 25px;}
+#toto4d .result{margin:0 10px 0;}
+#toto4d .result h4{margin:6px 7px;}
+#toto4d .result .resultContainer{margin:6px 6px 8px;}
+*/
