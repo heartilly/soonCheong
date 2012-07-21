@@ -35,6 +35,7 @@ function fillTd(obj,displayResult){
 
 
 function buildPmpDate(draw,date){
+// draw[0] : Draw number, draw[1] : Draw Date, draw[2] draw venue
 return 	"<dl><dt style='width:130px'><strong>"+drawNo+"&nbsp;</strong><big>"+draw[0]+"</big></dt><dt style='width:130px'><strong>"+drawDate+"&nbsp;</strong><big>"+draw[1]+"</big></dt></dl><dl><dt ><strong>&nbsp;&nbsp;</strong><big>"+draw[2]+"</big></dt><dt><strong>&nbsp;&nbsp;</strong><big>"+getDateDay(date)+"</big></dt></dl>"
 }
 function buildDate(draw,date){

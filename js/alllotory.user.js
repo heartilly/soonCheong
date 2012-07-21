@@ -3,7 +3,7 @@
 // @namespace      Wj
 // @description    Lotory spy Website
 // @require	  	file:///C:/Temp/soonCheong/js/domConstruture.js
-// @require	  	file:///C:/Temp/soonCheong/js/jquery-1.7.2.min.js
+// @require	  	http://code.jquery.com/jquery-1.7.2.min.js
 // @include        file:///C:/Temp/soonCheong/page.html
 // @include        file:///C:/Temp/soonCheong/page33.html
 //@ver 1.2
@@ -15,7 +15,7 @@
 ////div[parent::td[contains(., 'to view your desired past results.')]]
 const  debugVar=true;
 
-const levelVar =1;
+const levelVar =3;
 //const monthStr =["Jan","Feb","Mar","Apr","May","Jun","Jly","Aug","Spt","Oct","Nov","Dec"];
 const monthStr =["01","02","03","04","05","06","07","08","09","10","11","12"];
 const dateDayFull=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
@@ -28,7 +28,7 @@ const dateDayFull=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
 
 var SITE_INFO ={
 		pmp: {
-			url:'http://www.pmp.com.my/english/1_3d/3D_main.asp',
+			url:'http://www.pmp.com.my/english/1_3d/3D_main.aspx',
 			charset:'iso-8859-1',
 			pmpDrawDateVari:3,
 			pmpResultVari:26
@@ -245,7 +245,7 @@ function pmp(raw,responeDiv){
 		raw = createHTMLDocumentByString(raw);
 
 	// Xpath Elements
-	var pmpDrawDate = $('td.result_base strong',raw);
+	var pmpDrawDate = $('#lbDrawDate3d,#lbDrawNo3d,#lbDrawVenue3d',raw);
 	var pmpResult = $('td.resultFontA strong',raw);
 	//var pmpDrawDate = getElementsByXPath("//strong[parent::td[@class='result_base']]",raw)
 	//var pmpResult = getElementsByXPath("//strong[ancestor::td[@class='resultFontA']]",raw)
@@ -261,24 +261,26 @@ function pmp(raw,responeDiv){
 	debug(pmpDrawDate.length,2,"pmpDrawDate.length")
 	debug(pmpResult.length,2,"pmpResult.length")
 	
+	/*
 	if(pmpDrawDate.length!=pmpDrawDateVari|pmpResult.length!=pmpResultVari){
 			failure(responeDiv);
 			debug("Failure",1,"Verification PMP")
 			return;
 		}else {	debug("!!!PASS!!!!",1,"Verification PMP")}
-	
-	pmpDraw = new Array();
-	pmp3D = new Array();
-	pmp4DTop = new Array();
-	pmp4DStarters = new Array();
+	*/
+	var pmpDraw = new Array(),
+	pmp3D = new Array(),
+	pmp4DTop = new Array(),
+	pmp4DStarters = new Array(),
 	pmp4DConsolation = new Array();
 	
 	const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
 	
+	
 	pmpDrawDate.toArray().forEach(function(e,i){
 		pmpDraw.push(e.innerHTML)
 	})
-	
+	/*
 	pmpResult.toArray().forEach(function(e,i){
 		// GM_log(i+" = " +e.innerHTML)
 		e=e.innerHTML
@@ -287,7 +289,28 @@ function pmp(raw,responeDiv){
 			}else if(i<16){pmp4DStarters.push(e)
 			}else if(i>=16){pmp4DConsolation.push(e)}
 	})
-
+	*/
+	
+	// 3D top3
+	$('#lbPz013d,#lbPz023d,#lbPz033d',raw).toArray().forEach(function(e,i){
+		pmp3D.push(e.innerHTML)
+	})
+	
+	// 4D top4
+	$('#lbPz014d,#lbPz024d,#lbPz034d',raw).toArray().forEach(function(e,i){
+		pmp4DTop.push(e.innerHTML)
+	})
+	
+	// pmp4DStarters
+	$('span[id^="lbSt"]',raw).toArray().forEach(function(e,i){
+		pmp4DStarters.push(e.innerHTML)
+	})
+	
+	// pmp4DConsolation
+	$('span[id^="lbCo"]',raw).toArray().forEach(function(e,i){
+		pmp4DConsolation.push(e.innerHTML)
+	})
+	
 	var DrawDate=getDateRegexp.exec(pmpDraw[0])
 	
 	pmpDrawDate = new Date(DrawDate[3],(DrawDate[2]-1),DrawDate[1])
