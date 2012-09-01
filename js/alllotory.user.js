@@ -97,7 +97,7 @@ function Ajax(site,siteId,responeDiv){
 		// window.setTimeout(function(){responeDiv.parentNode.removeChild(responeDiv);}, 1500);	
 		// }
 		text = raw.responseText
-		text = text.replace(/(<[^>]*?)on(?:(?:un)?load|(?:db)|mouse(?:down|up|over|out|move)|key(?:press|down|up)|abort|blur|change|error|focus|re(?:size|set)|select|submit)\s*?=\s*?["'][^"']*?["']/ig, "$1");
+		//text = text.replace(/(<[^>]*?)on(?:(?:un)?load|(?:db)|mouse(?:down|up|over|out|move)|key(?:press|down|up)|abort|blur|change|error|focus|re(?:size|set)|select|submit)\s*?=\s*?["'][^"']*?["']/ig, "$1");
 	    text = text.replace(/<\s*?(?:script|object)[^>]*?>[\s\S]*?<\s*?\/(?:script|object)\s*?>/ig, "");
 		// var htmldoc = createHTMLDocumentByString(text);
 		// var parser = new DOMParser();
