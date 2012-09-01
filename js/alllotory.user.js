@@ -53,16 +53,16 @@ var SITE_INFO ={
 			magnumReusltVari:2
 		},
 		toto:{
-			url:'http://www.sportstoto.com.my/g_past_results/main.asp',
+			url:'http://www.sportstoto.com.my/results_past.asp',
 			charset:'UTF-8',
 		},
 		totolastest: {
 			url:'totourl',
 			charset:'UTF-8',
 			// Verificasion condition
-			avari:81,
+			avari:23,
 			bvari:20,
-			jackvari:4
+			jackvari:6
 		}
 	}
 
@@ -97,7 +97,7 @@ function Ajax(site,siteId,responeDiv){
 		// window.setTimeout(function(){responeDiv.parentNode.removeChild(responeDiv);}, 1500);	
 		// }
 		text = raw.responseText
-		text = text.replace(/(<[^>]*?)on(?:(?:un)?load|(?:db)?click|mouse(?:down|up|over|out|move)|key(?:press|down|up)|abort|blur|change|error|focus|re(?:size|set)|select|submit)\s*?=\s*?["'][^"']*?["']/ig, "$1");
+		//text = text.replace(/(<[^>]*?)on(?:(?:un)?load|(?:db)|mouse(?:down|up|over|out|move)|key(?:press|down|up)|abort|blur|change|error|focus|re(?:size|set)|select|submit)\s*?=\s*?["'][^"']*?["']/ig, "$1");
 	    text = text.replace(/<\s*?(?:script|object)[^>]*?>[\s\S]*?<\s*?\/(?:script|object)\s*?>/ig, "");
 		// var htmldoc = createHTMLDocumentByString(text);
 		// var parser = new DOMParser();
@@ -442,15 +442,25 @@ function magnum(raw,responeDiv){
 //TOTOSPORT function
 function toto(raw,responeDiv){
 
-	var pageDomain = 'http://www.sportstoto.com.my/g_past_results/'
+	var pageDomain = 'http://www.sportstoto.com.my/'
 	// Convert to html object
-	raw = createHTMLDocumentByString(raw);
-	
+	//raw = createHTMLDocumentByString(raw);
 	//var getLastest = getElementsByXPath("//a[ancestor::div[parent::td[contains(., 'to view your desired past results.')]]]",raw)
 	//var	getLastestValue = getLastest[0].href
-	var getLastest = $("b:contains('Date')",raw).closest('tr').next().find('a'),
-	getLastestValue = getLastest[0].href;
-	SITE_INFO.totolastest.url = pageDomain+getLastestValue
+	
+	var getLastest = $(".calendar_drawbox",raw).last().closest('a'),
+	getLastestValue = getLastest.attr("onclick");
+	if(getLastest.length===0){
+		failure(responeDiv);
+		return;
+	}
+	var reg_select=/'(popup_past_results.*[^\'])',/ig
+	
+	var draw_reg=reg_select.exec(getLastestValue);
+	
+	console.log(draw_reg[1])
+	SITE_INFO.totolastest.url = pageDomain+draw_reg[1]
+	console.log(pageDomain+draw_reg[1])
 	
 	Ajax(SITE_INFO.totolastest,"totolastest",responeDiv)
 
@@ -461,7 +471,7 @@ function totolastest(raw,responeDiv){
 	debug(raw,10,"TOTO Raw File")
 
 	// Convert to html object
-		raw = createHTMLDocumentByString(raw);
+	//	raw = createHTMLDocumentByString(raw);
 
 	// Get verify condition 
 	var totoResultAViri = SITE_INFO.totolastest.avari,
@@ -472,27 +482,31 @@ function totolastest(raw,responeDiv){
 	//var totoResultA = getElementsByXPath("//span[@class='dataResultA']",raw)
 	//var totoResultB = getElementsByXPath("//span[@class='dataResultB']",raw)
 	//var totoJackPrize = getElementsByXPath("//span[@class='dataJackPrize']",raw)
-	var totoDataDD = $("span.dataDD",raw),
-	 totoResultA = $("span.dataResultA",raw),
-	 totoResultB = $("span.dataResultB",raw),
-	 totoJackPrize = $("span.dataJackPrize",raw);
+	
+	var D4Table = $('.txt_white5:contains("TOTO 4D")',raw).closest("table"), totoDataDD = $('.txt_black6',raw),
+	 totoResultA = $(".txt_black2 td:not([bgcolor='#c0c0c0'])",D4Table[0]),
+	 totoResultB = $("td.txt_black2[width='63'],td.txt_black2[width='47.25']",raw),
+	 toto5D6D=$(".txt_black4",raw),
+	 totoJackPrize = $("td.txt_red1",raw);
 	
 	if(!totoDataDD){
 		failure(responeDiv);
 		return;
 	}
+	
 
 	if(totoResultA.length!=totoResultAViri|totoResultB.length!=totoResultBViri|totoJackPrize.length!=totoJackPrizeViri){
 			failure(responeDiv);	
 			debug("Failure",1,"Verification TOTO SPORT");
 			//return;
 		}else {	debug("!!!PASS!!!!",1,"Verification TOTO SPORT")}
+	
 		
 	debug(totoDataDD.length,2,"totoDataDD.length")
 	debug(totoResultA.length,2,"totoResultA.length")
+	debug(toto5D6D.length,2,"toto5D6D.length")
 	debug(totoResultB.length,2,"totoResultB.length")
 	debug(totoJackPrize.length,2,"totoJackPrize.length")
-	
 		
 	const totoRegexp=/(?:(?:dra|Date)[^\.]*?(?:\.|\:)\s)|\s*/ig
 	const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
@@ -509,16 +523,40 @@ function totolastest(raw,responeDiv){
 	toto5D2nd = [],
 	toto5D3rd = [],
 	toto6D = [];
+	
+	//5D 6D array manipulate
+	toto5D6D.toArray().forEach(function(e,i){
+		e=e.innerHTML.replace(/\s*/ig,"");
+		//console.log(e.length)
+		switch (e.length){
+		case 5:
+			debug(e,4,i + " = ")	
+			var small_Number=e.split("");
+			small_Number.forEach(function(e,i){
+				totoResultA.push(e);
+			})
+			break;
+		case 6:
+			debug(e,4,i + " = ")	
+			var small_Number=e.split("");
+			small_Number.forEach(function(e,i){
+				totoResultA.push(e);
+			})
+			break;
+		default:
+			break;
+		}
 
+	})
 	// Manipulate Elements
 	totoDataDD.toArray().forEach(function(e,i){
-		e=e.innerHTML.replace(totoRegexp,'')
+		e=e.innerHTML;
+		debug(e,3,i + " = ")
 		totoDraw.push(e)
-		// GM_log(i+" = " +e)
+		
 	})
-	totoDraw=[totoDraw[1],totoDraw[0]]
 	
-	var dummyVar =totoDraw[1]
+	var dummyVar =totoDraw[0]
 		 
 		 DrawDate=getDateRegexp.exec(dummyVar)
 		 // sg4dDrawDate[2]=stringToMonth(sg4dDrawDate[2])
@@ -526,18 +564,20 @@ function totolastest(raw,responeDiv){
 		 // sg4dDrawDate[3]="20"+sg4dDrawDate[3]
 		 totoDrawDate = new Date(DrawDate[3],(DrawDate[2]-1),DrawDate[1])
 		 DisplayDate = DrawDate[1]+"/"+DrawDate[2]+"/"+(DrawDate[3]-2000);
-		totoDraw[1] = DisplayDate
+		totoDraw[0] = totoDraw[1];
+		totoDraw[1] = DisplayDate;
+	
 	totoResultA.toArray().forEach(function(e,i){
-	e=e.innerHTML.replace(/\s*/ig,"")
-	debug(e,3,i + " = ")
-		if(i<3){toto4DTop3.push(e)
-		}else if(i<13){toto4DStarters.push(e)
-		}else if(i<23){toto4DConsolation.push(e)
-		}else if(i>40&i<46){toto5D.push(e)
-		}else if(i>49&i<55){toto5D2nd.push(e)
-		}else if(i>57&i<63){toto5D3rd.push(e)
-		}else if(i>64&i<71){toto6D.push(e)}
-		// GM_log(i+" = " +e)
+	//e=e.innerHTML.replace(/\s*/ig,"")
+	//e=e;
+	debug(e,4,i + " = ")
+		if(i<3){toto4DTop3.push(e.innerHTML)
+		}else if(i<13){toto4DStarters.push(e.innerHTML)
+		}else if(i<23){toto4DConsolation.push(e.innerHTML)
+		}else if(i>22&i<28){toto5D.push(e)
+		}else if(i>27&i<33){toto5D2nd.push(e)
+		}else if(i>32&i<38){toto5D3rd.push(e)
+		}else if(i>37&i<44){toto6D.push(e)}
 	})
 	
 	totoResultB.toArray().forEach(function(e,i){
@@ -548,12 +588,10 @@ function totolastest(raw,responeDiv){
 	})
 	
 	totoJackPrize.toArray().forEach(function(e,i){
-	e=e.innerHTML.match(/(RM[^<]*)/ig)
-	
-	if(i>1){
-	totoRM.push(e)
-	}
-	// GM_log(i+" = " +e)
+		e=e.innerHTML.match(/(RM[^<]*)/ig)
+		if(i>1){
+			totoRM.push(e)
+		}
 	})
 	
 	 debug(totoDrawDate,3,"totoDrawDate")
@@ -638,17 +676,7 @@ function stringToMonth(e){
 		break;
 		}
 	}
-function getElementsByXPath(xpath, node) {
-    var node = node || document
-    var doc = node.ownerDocument ? node.ownerDocument : node
-    var nodesSnapshot = doc.evaluate(xpath, node, null,
-        XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
-    var data = []
-    for (var i = 0; i < nodesSnapshot.snapshotLength; i++) {
-        data.push(nodesSnapshot.snapshotItem(i))
-    }
-    return (data.length >= 1) ? data : null
-}
+
 function createHTMLDocumentByString(str) {
     var html = str.replace(/<!DOCTYPE.*?>/, '').replace(/<html.*?>/, '').replace(/<\/html>.*/, '')
     var htmlDoc  = document.implementation.createDocument(null, 'html', null)
