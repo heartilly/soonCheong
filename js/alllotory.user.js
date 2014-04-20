@@ -15,7 +15,7 @@
 ////div[parent::td[contains(., 'to view your desired past results.')]]
 const  debugVar=true;
 
-const levelVar =3;
+const levelVar =9;
 //const monthStr =["Jan","Feb","Mar","Apr","May","Jun","Jly","Aug","Spt","Oct","Nov","Dec"];
 const monthStr =["01","02","03","04","05","06","07","08","09","10","11","12"];
 const dateDayFull=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
@@ -27,26 +27,41 @@ const dateDayFull=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
 // 10 = Raw file Dom
 
 var SITE_INFO ={
-		pmp: {
+		pmp2: {
 			url:'http://www.pmp.com.my/english/1_3d/3D_main.aspx',
 			charset:'iso-8859-1',
 			pmpDrawDateVari:3,
 			pmpResultVari:26
 		},
+		pmp: {
+			url:'http://4d88.com/',
+			charset:'utf-8',
+			pmpDrawDateVari:3,
+			pmpResultVari:26
+		},
 		sg4dlastest: {
-			url:'ddf',
-			charset:'iso-8859-1',
+			url:'http://www.check4d.com/singapore-pools-results/',
+			charset:'UTF-8',
 			sg4dLastestDateVari:1,
 			sg4dResultTopVari:3,
 			sg4dResultVari:20
 		},
 		sg4d: {
-			url:'http://www.singaporepools.com.sg/Lottery?page=four_d',
-			charset:'iso-8859-1'
+			url:'http://www.check4d.com/singapore-pools-results/',
+			charset:'UTF-8'
 		},
-		magnum: {
+		magnum2: {
 			url:'http://www.live4d.com/live4d/4dlive1.htm',
+			//url:'http://www.live4d.com/live4d/xml_4dlive_ajax.htm',
 			charset:'UTF-16',
+			// Verificasion condition
+			magnumDrawNoVari:10,
+			magnumTop3Vari:3,
+			magnumReusltVari:2
+		},
+		magnum:{		
+			url:'http://www.check4d.com/',
+			charset:'UTF-8',
 			// Verificasion condition
 			magnumDrawNoVari:10,
 			magnumTop3Vari:3,
@@ -117,15 +132,15 @@ function Ajax(site,siteId,responeDiv){
 			break;
 
 		case "pmp":
-			pmp(text,responeDiv);
+			pmp2(text,responeDiv);
 			break;
 
 		case "sg4d":
-			sg4d(text,responeDiv);
+			singapore2(text,responeDiv);
 			break;
 			
 		case "sg4dlastest":
-			sg4dlastest(text,responeDiv);
+			singapore2(text,responeDiv);
 			break;
 			
 		default:
@@ -140,83 +155,125 @@ function Ajax(site,siteId,responeDiv){
 	}
 
 // sg4dlastest function
-function sg4dlastest(raw,responeDiv){
-	debug(raw,10,"Sg4D Raw File")
+function singapore2(raw,responeDiv){
+	// Filltering unnessecery tag
+	//raw = raw.replace(/<\s?font[^>]*?>/ig,'')
+	//raw = raw.replace(/<\s?\/font\s?>/ig,'')
+	
+	debug(raw,10,"Magnum4D Raw File")
+	var jq_raw = $(".resultTable:first",$(raw)),
+	 topPrize = jq_raw.find("tr:contains('1st'):last td:last-child").text(),
+	 secondPrize = jq_raw.find("tr:contains('2nd'):last td:last-child").text(),
+	 thirdPrize = jq_raw.find("tr:contains('3rd'):last td:last-child").text();
+	
+	//GM_log(topPrize)
+
 	// Convert to html object
-	raw = createHTMLDocumentByString(raw);
+		raw = createHTMLDocumentByString(raw);
+		
+	// Get verify condition 
+	var drawNoVari = SITE_INFO.magnum.drawNoVari
+	var magnumTop3Vari = SITE_INFO.magnum.magnumTop3Vari
+	var magnumReusltVari = SITE_INFO.magnum.magnumReusltVari
 	
 	// Xpath Elements
-	//var sg4dLastestDate = getElementsByXPath("//td[@class='normal10']",raw)
-	//var sg4dResultTop = getElementsByXPath("//td[@class='resultssectiontext4Dtop3']",raw)
-	//var sg4dResult = getElementsByXPath("//td[@class='resultssectiontext4D']",raw)
-	var sg4dLastestDate = $('td.normal10',raw),
-	 sg4dResultTop = $('td.resultssectiontext4Dtop3',raw),
-	 sg4dResult = $('td.resultssectiontext4D',raw);
 	
-	
-	// Get verify condition 
-	var sg4dLastestDateVari = SITE_INFO.sg4dlastest.sg4dLastestDateVari;
-	var sg4dResultTopVari = SITE_INFO.sg4dlastest.sg4dResultTopVari;
-	var sg4dResultVari = SITE_INFO.sg4dlastest.sg4dResultVari;
-	
-	if(!sg4dLastestDate){
-		failure(responeDiv);
+	//var drawNo = getElementsByXPath("//b[parent::td[@width='50%']]",raw)
+	var drawNo = jq_raw.find("*:contains('Draw No'):last").text();
+	var drawDate = jq_raw.find("tr:contains('Draw No'):last td:first").text();
+	//var mangnumTop3 = getElementsByXPath("//tr[@height='25']/td[@colspan='2' and position()=last()]/b",raw)
+	//var  magnumReuslt = getElementsByXPath("//td[@width='50%']",raw)
+	//var  magnumReuslt = getElementsByXPath("//td[@width='50%' and @valign='top']",raw)
+	var specialPrizes = $(".resultbottom",jq_raw);
+	//var specialPrizes = jq_raw.find("td:contains('Special'):last tr:not(:first) td");
+	var consolationPrizesRaw = jq_raw.find("td:contains('Consolation')").closest("tr").nextAll().find(".resultbottom");
+	//var consolationPrizes = jq_raw.find("table:contains('Consolation'):last tr:not(:first) td");
+	debug(consolationPrizesRaw.text(),10,"consolationPrizes")
+	console.log(consolationPrizesRaw)
+	/*
+	if(!thirdPrize){
+		failure(responeDiv,"thirdPrize Fail");
 		return;
 	}
-	
-	debug(sg4dLastestDate.length,2,"sg4dLastestDate.length");
-	debug(sg4dResultTop.length,2,"sg4dResultTop.length");
-	debug(sg4dResult.length,2,"sg4dResult.length");
-	
-	if(sg4dLastestDate.length!=sg4dLastestDateVari|sg4dResultTop.length!=sg4dResultTopVari|sg4dResult.length!=sg4dResultVari){
-		failure(responeDiv);
-		debug("Failure",1,"Verification Sg4D")
+	if(!drawNo){
+		failure(responeDiv,"drawNo Fail");
 		return;
-	}else {	debug("!!!PASS!!!!",1,"Verification Sg4D")}
-
-	const getDateRegexp=/(\d+)\s+(\w+)\s+(\d+)/ig;
-	const sg4dRegexp=/dra.*?(\d*?)\s?<br.*\"\/>(.*)/ig;
+	}
+	//debug(mangnumTop3.length,2,"mangnumTop3.length")
+	// debug(magnumDrawDate.length,2,"magnumDrawDate.length")
+	if(specialPrizes.length!=drawNoVari|consolationPrizes.length!=drawNoVari){
+			debug("Failure",1,"Verification Magnum 4D")
+			failure(responeDiv,"special or Con fail");
+			return;
+		}else {	debug("!!!PASS!!!!",1,"Verification Magnum 4D")}
+	*/	
+	const magnumRegexp=/(?:dra[^\:]*?:\s)|\s*/ig
+	//const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
+	const getDateRegexp=/(\d+)\-(\d+)\-(\d+)/ig
 	
-	var dummyVar =sg4dLastestDate[0].innerHTML;
-		 dummyVar=sg4dRegexp.exec(dummyVar);
-		 sg4dDrawDate=getDateRegexp.exec(dummyVar[2]);
-		 sg4dDrawDate[2]=stringToMonth(sg4dDrawDate[2]);
-		 sg4dDisplayDate = sg4dDrawDate[1]+"/"+(sg4dDrawDate[2]+1)+"/"+sg4dDrawDate[3];
-		 sg4dDrawDate[3]="20"+sg4dDrawDate[3];
-		 sg4dDrawDate = new Date(sg4dDrawDate[3],sg4dDrawDate[2],sg4dDrawDate[1]);
-		 sg4dDrawNo=[dummyVar[1],sg4dDisplayDate];
-		 
-		 var sg4dTop3 = [],
-		 sg4dStarter =  [],
-		 sg4dConsolation =  [];
+	//var specialPrizes = getElementsByXPath("descendant::b",magnumReuslt[0])
 
-		 sg4dResult.toArray().forEach(function(e,i){
-			e=e.innerHTML.replace(/\s*/ig,"")
-			if(i<10){
-					sg4dStarter.push(e);
-					return;
-				} else if(i>=10){
-					sg4dConsolation.push(e);
-					return;
-				}
-			})
+	magnumDraw = new Array();
+	top3Prizes = new Array();
+	//magnumStarters = jQuery.makeArray( specialPrizes.text() );
+	startersPrizes = new Array();
+	consolationPrizes = new Array();
+	
+
+	drawNo = drawNo.replace(magnumRegexp,'');
+	magnumDraw.push(drawNo,drawDate)	
+
+
+	drawDate = getDateRegexp.exec(magnumDraw[1])
+	rawDate = new Date(drawDate[3],drawDate[2]-1,drawDate[1])
+	DisplayDate = drawDate[1]+"/"+drawDate[2]+"/"+(drawDate[3]-2000);
+	magnumDraw[1]=DisplayDate
+	// drawDate = magnumDraw[1].match(getDateRegexp)
+	mangnumTop3Prizes = top3Prizes.push(topPrize,secondPrize,thirdPrize)
+	//mangnumTop3Prizes.forEach(function(e,i){ top3Prizes.push(e.innerHTML) })	
 			
-		sg4dResultTop.toArray().forEach(function(e,i){
-			e=e.innerHTML.replace(/\s*/ig,"")
-			sg4dTop3.push(e)
-		})
-		
-		 debug(sg4dDrawNo,3,"sg4dDrawNo")
-		 debug(sg4dDrawDate,3,"sg4dDrawDate")
-		 debug(sg4dTop3,3,"sg4dTop3")
-		 debug(sg4dStarter,3,"sg4dStarter")
-		 debug(sg4dConsolation,3,"sg4dConsolation")
-		 
-		domBuildSg4d(sg4dDrawNo,sg4dDrawDate,sg4dTop3,sg4dStarter,sg4dConsolation)
+	jQuery.each(specialPrizes, function(i,val) {
+      var val = $(val).text()
+      if(i<10){
+	  startersPrizes.push(val)
+	}else if(i>12){
+		// consolationPrizes.push(val)
+	}
+    });
+	jQuery.each(consolationPrizesRaw, function(i,val) {
+      var val = $(val).text()
+ 
+	  consolationPrizes.push(val)
+
+    });
+    /*
+	jQuery.each(magnumCon, function(i,val) {
+		 if(i<11){
+      var val = $(val).text()
+	  consolationPrizes.push(val)
+	}
+    });
+	*/
+	//populate date
+	var today = rawDate.getDate();
+	if(today<10){today = "0"+today};
+	var showDate= today+"-"+getDateMonth(rawDate)+"-"+rawDate.getFullYear();
+			
+	verticalText(showDate,getDateDayFull(rawDate));	
+
+	debug(magnumDraw,3,"magnumDraw")
+	 debug(rawDate,3,"rawDate")
+	 debug(top3Prizes,3,"top3Prizes")
+	 debug(startersPrizes,3,"startersPrizes")
+	 debug(consolationPrizes,3,"consolationPrizes")
+	 domBuildSg4d(magnumDraw,rawDate,top3Prizes,startersPrizes,consolationPrizes)
 		if(responeDiv){
 		responeDiv.innerHTML="<span class='systemInfo done' >Done</span>"
 		window.setTimeout(function(){removeButton(responeDiv)}, 1500);	
 		}
+	 //verticalText(magnumDraw[1]);
+
+	// if(responeDiv){responeDiv.parentNode.removeChild(responeDiv)}
 }
 
 
@@ -239,6 +296,115 @@ function sg4d(raw,responeDiv){
 
 
 // PMP 1+3D function
+function pmp2(raw,responeDiv){
+	debug(raw,10,"PMP Raw File")
+	// Convert to html object
+		raw = createHTMLDocumentByString(raw);
+
+	// Xpath Elements
+	var jQRaw = $(".curve.reSize",$(raw)).first(),
+	 top1 = $("td.d1sttxt > div",jQRaw).html(),
+	 top2 = $("td.d2ndtxt > div",jQRaw).html(),
+	 top3 = $("td.d3rdtxt > div",jQRaw).html();
+
+	pmp4DStartersTemp = jQRaw.find("table:contains('Starters'):last td");
+	pmp4DConsolationTemp = jQRaw.find("table:contains('Consolation'):last td");
+
+	pmpDateRaw = $("strong:contains('DAMACAI 1+3D'):first font",jQRaw);
+
+	debug(pmp4DStarters,10,"PMP Raw File");
+	 // top1 = jQRaw.find("tr:contains('1st'):last td:last-child").text(),
+	 // top2 = jQRaw.find("tr:contains('2nd'):last td:last-child").text(),
+	 // top3 = jQRaw.find("tr:contains('3rd'):last td:last-child").text();	
+	// Get verify condition 
+	var pmpDrawDateVari = SITE_INFO.pmp.pmpDrawDateVari
+	var pmpResultVari = SITE_INFO.pmp.pmpResultVari
+
+
+	
+	// if(!pmpDrawDate){
+	// 	failure(responeDiv);
+	// 	return;
+	// }
+	// debug(pmpDrawDate.length,2,"pmpDrawDate.length")
+	// debug(pmpResult.length,2,"pmpResult.length")
+	
+	/*
+	if(pmpDrawDate.length!=pmpDrawDateVari|pmpResult.length!=pmpResultVari){
+			failure(responeDiv);
+			debug("Failure",1,"Verification PMP")
+			return;
+		}else {	debug("!!!PASS!!!!",1,"Verification PMP")}
+	*/
+	var pmpDraw = new Array(),
+	pmp3D =  [top1,top2,top3],
+	pmp4DTop =  [top1,top2,top3],
+	pmp4DStarters = new Array(),
+	pmp4DConsolation = new Array();
+	
+	const getDateRegexp=/(\d+)\-(\d+)\-(\d+)/ig
+	
+	
+	// pmpDrawDate.toArray().forEach(function(e,i){
+	// 	pmpDraw.push(e.innerHTML)
+	// })
+	/*
+	pmpResult.toArray().forEach(function(e,i){
+		// GM_log(i+" = " +e.innerHTML)
+		e=e.innerHTML
+		if(i<3){pmp3D.push(e)
+			} else if(i<6){pmp4DTop.push(e)
+			}else if(i<16){pmp4DStarters.push(e)
+			}else if(i>=16){pmp4DConsolation.push(e)}
+	})
+	*/
+	pmp3D = [top1,top2,top3]
+	var ii = 0;
+		do {
+			dd = pmp3D[ii].toString();
+			pmp3D[ii] = dd.substring(2,5);
+			ii += 1
+		}while (ii < 3)
+
+	var iii = 1;
+		do {
+			pmp4DStarters.push(pmp4DStartersTemp[iii].innerHTML);
+			// console.log("her is it" + pmp4DStarters)
+			iii += 1
+		}while (iii < 11)
+
+	var iiii = 1;
+		do {
+			pmp4DConsolation.push(pmp4DConsolationTemp[iiii].innerHTML);
+			// console.log("her is it" + pmp4DConsolation)
+			iiii += 1
+		}while (iiii < 11)
+
+
+	var DrawDate=getDateRegexp.exec(pmpDateRaw[1].innerHTML);
+		console.log(DrawDate)
+	pmpDrawDate = new Date(DrawDate[3],(DrawDate[2]-1),DrawDate[1])
+	// DisplayDate = DrawDate[1]+"/"+DrawDate[2]+"/"+(DrawDate[3]-2000);
+	// // totoDraw[1] = DisplayDate
+
+	pmpDraw = pmpDateRaw[2].innerHTML;
+		console.log(pmpDraw)
+	// pmpDraw = [pmpDraw[1],DisplayDate,pmpDraw[2]]
+	
+	 // debug(pmpDraw,3,"pmpDraw")
+	 debug(pmpDrawDate,3,"pmpDrawDate")
+	 debug(pmp3D,3,"pmp3D")
+	 debug(pmp4DTop,3,"pmp4DTop")
+	 debug(pmp4DStarters,3,"pmp4DStarters")
+	 debug(pmp4DConsolation,3,"pmp4DConsolation")
+	 
+	domBuildPmp(pmpDraw,pmpDrawDate,pmp3D,pmp4DTop,pmp4DStarters,pmp4DConsolation)
+		if(responeDiv){
+		responeDiv.innerHTML="<span class='systemInfo done' >Done</span>"
+		window.setTimeout(function(){removeButton(responeDiv)}, 1500);	
+		}
+}
+
 function pmp(raw,responeDiv){
 	debug(raw,10,"PMP Raw File")
 	// Convert to html object
@@ -340,14 +506,130 @@ return e.innerHTML="<br /><span class='alert2'>Verification Failure</span><br/><
 // MAGNUM 4D function
 function magnum(raw,responeDiv){
 	// Filltering unnessecery tag
-	raw = raw.replace(/<\s?font[^>]*?>/ig,'')
-	raw = raw.replace(/<\s?\/font\s?>/ig,'')
+	//raw = raw.replace(/<\s?font[^>]*?>/ig,'')
+	//raw = raw.replace(/<\s?\/font\s?>/ig,'')
+	debug(raw,10,"Magnum4D Raw File")
+	var jQRawMagnum = $(".resultTable:first",$(raw));
+	console.log(jQRawMagnum)
+	 magnum1st = jQRawMagnum.find("tr:contains('1st'):last td:last-child").text(),
+	 magnum2nd = jQRawMagnum.find("tr:contains('2nd'):last td:last-child").text(),
+	 magnum3rd = jQRawMagnum.find("tr:contains('3rd'):last td:last-child").text();
+	
+	//GM_log(magnum1st)
+
+	// Convert to html object
+		raw = createHTMLDocumentByString(raw);
+		
+	// Get verify condition 
+	var magnumDrawNoVari = SITE_INFO.magnum.magnumDrawNoVari
+	var magnumTop3Vari = SITE_INFO.magnum.magnumTop3Vari
+	var magnumReusltVari = SITE_INFO.magnum.magnumReusltVari
+	
+	// Xpath Elements
+	
+	//var magnumDrawNo = getElementsByXPath("//b[parent::td[@width='50%']]",raw)
+	var magnumDrawNo = jQRawMagnum.find("*:contains('Draw No'):last").text();
+	var magnumDate = jQRawMagnum.find("tr:contains('Draw No'):last td:first").text();
+	//var mangnumTop3 = getElementsByXPath("//tr[@height='25']/td[@colspan='2' and position()=last()]/b",raw)
+	//var  magnumReuslt = getElementsByXPath("//td[@width='50%']",raw)
+	//var  magnumReuslt = getElementsByXPath("//td[@width='50%' and @valign='top']",raw)
+	var magnumSpecial = $(".resultbottom",jQRawMagnum);
+	//var magnumSpecial = jQRawMagnum.find("td:contains('Special'):last tr:not(:first) td");
+	var magnumCon = jQRawMagnum.find("table:contains('Consolation'):last tr:not(:first) td");
+	//var magnumCon = jQRawMagnum.find("table:contains('Consolation'):last tr:not(:first) td");
+	debug(magnumSpecial,10,"magnum3rd")
+	console.log(magnumSpecial)
+	/*
+	if(!magnum3rd){
+		failure(responeDiv,"magnum3rd Fail");
+		return;
+	}
+	if(!magnumDrawNo){
+		failure(responeDiv,"magnumDrawNo Fail");
+		return;
+	}
+	//debug(mangnumTop3.length,2,"mangnumTop3.length")
+	// debug(magnumDrawDate.length,2,"magnumDrawDate.length")
+	if(magnumSpecial.length!=magnumDrawNoVari|magnumCon.length!=magnumDrawNoVari){
+			debug("Failure",1,"Verification Magnum 4D")
+			failure(responeDiv,"special or Con fail");
+			return;
+		}else {	debug("!!!PASS!!!!",1,"Verification Magnum 4D")}
+	*/	
+	const magnumRegexp=/(?:dra[^\:]*?:\s)|\s*/ig
+	//const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
+	const getDateRegexp=/(\d+)\-(\d+)\-(\d+)/ig
+	
+	//var magnumSpecial = getElementsByXPath("descendant::b",magnumReuslt[0])
+
+	magnumDraw = new Array();
+	magnumTop3 = new Array();
+	//magnumStarters = jQuery.makeArray( magnumSpecial.text() );
+	magnumStarters = new Array();
+	magnumConsolation = new Array();
+	
+
+	magnumDrawNo = magnumDrawNo.replace(magnumRegexp,'');
+	magnumDraw.push(magnumDrawNo,magnumDate)	
+
+
+	magnumDate = getDateRegexp.exec(magnumDraw[1])
+	magnumDrawDate = new Date(magnumDate[3],magnumDate[2]-1,magnumDate[1])
+	DisplayDate = magnumDate[1]+"/"+magnumDate[2]+"/"+(magnumDate[3]-2000);
+	magnumDraw[1]=DisplayDate
+	// magnumDate = magnumDraw[1].match(getDateRegexp)
+	mangnumTop3 = magnumTop3.push(magnum1st,magnum2nd,magnum3rd)
+	//mangnumTop3.forEach(function(e,i){ magnumTop3.push(e.innerHTML) })	
+			
+	jQuery.each(magnumSpecial, function(i,val) {
+      var val = $(val).text()
+      if(i<10){
+	  magnumStarters.push(val)
+	}else if(i>12){
+		magnumConsolation.push(val)
+	}
+    });
+    /*
+	jQuery.each(magnumCon, function(i,val) {
+		 if(i<11){
+      var val = $(val).text()
+	  magnumConsolation.push(val)
+	}
+    });
+	*/
+	//populate date
+	var today = magnumDrawDate.getDate();
+	if(today<10){today = "0"+today};
+	var showDate= today+"-"+getDateMonth(magnumDrawDate)+"-"+magnumDrawDate.getFullYear();
+			
+	verticalText(showDate,getDateDayFull(magnumDrawDate));	
+
+	debug(magnumDraw,3,"magnumDraw")
+	 debug(magnumDrawDate,3,"magnumDrawDate")
+	 debug(magnumTop3,3,"magnumTop3")
+	 debug(magnumStarters,3,"magnumStarters")
+	 debug(magnumConsolation,3,"magnumConsolation")
+	 domBuildMagnum(magnumDraw,magnumDrawDate,magnumTop3,magnumStarters,magnumConsolation)
+		if(responeDiv){
+		responeDiv.innerHTML="<span class='systemInfo done' >Done</span>"
+		window.setTimeout(function(){removeButton(responeDiv)}, 1500);	
+		}
+	 //verticalText(magnumDraw[1]);
+
+	// if(responeDiv){responeDiv.parentNode.removeChild(responeDiv)}
+}
+// MAGNUM 4D function
+function magnum2(raw,responeDiv){
+	// Filltering unnessecery tag
+	//raw = raw.replace(/<\s?font[^>]*?>/ig,'')
+	//raw = raw.replace(/<\s?\/font\s?>/ig,'')
 	
 	debug(raw,10,"Magnum4D Raw File")
 	var jQRawMagnum = $(raw),
 	 magnum1st = jQRawMagnum.find("tr:contains('1st'):last td:last-child").text(),
 	 magnum2nd = jQRawMagnum.find("tr:contains('2nd'):last td:last-child").text(),
 	 magnum3rd = jQRawMagnum.find("tr:contains('3rd'):last td:last-child").text();
+	debug(magnum3rd,10,"magnum3rd")
 	//GM_log(magnum1st)
 
 	// Convert to html object
@@ -438,7 +720,6 @@ function magnum(raw,responeDiv){
 
 	// if(responeDiv){responeDiv.parentNode.removeChild(responeDiv)}
 }
-
 //TOTOSPORT function
 function toto(raw,responeDiv){
 
