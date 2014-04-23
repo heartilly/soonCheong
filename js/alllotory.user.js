@@ -60,7 +60,7 @@ var SITE_INFO ={
 			magnumReusltVari:2
 		},
 		magnum:{		
-			url:'http://www.check4d.com/',
+			url:'http://4d88.com/',
 			charset:'UTF-8',
 			// Verificasion condition
 			magnumDrawNoVari:10,
@@ -505,220 +505,82 @@ return e.innerHTML="<br /><span class='alert2'>Verification Failure</span><br/><
 }
 // MAGNUM 4D function
 function magnum(raw,responeDiv){
-	// Filltering unnessecery tag
-	//raw = raw.replace(/<\s?font[^>]*?>/ig,'')
-	//raw = raw.replace(/<\s?\/font\s?>/ig,'')
-	debug(raw,10,"Magnum4D Raw File")
-	var jQRawMagnum = $(".resultTable:first",$(raw));
-	console.log(jQRawMagnum)
-	 magnum1st = jQRawMagnum.find("tr:contains('1st'):last td:last-child").text(),
-	 magnum2nd = jQRawMagnum.find("tr:contains('2nd'):last td:last-child").text(),
-	 magnum3rd = jQRawMagnum.find("tr:contains('3rd'):last td:last-child").text();
-	
-	//GM_log(magnum1st)
-
+	debug(raw,10,"magnum Raw File")
 	// Convert to html object
 		raw = createHTMLDocumentByString(raw);
-		
-	// Get verify condition 
-	var magnumDrawNoVari = SITE_INFO.magnum.magnumDrawNoVari
-	var magnumTop3Vari = SITE_INFO.magnum.magnumTop3Vari
-	var magnumReusltVari = SITE_INFO.magnum.magnumReusltVari
-	
+
 	// Xpath Elements
+	var jQRaw = $($(".curve.reSize",$(raw))[2]),
+	 top1 = $("td.d1sttxt > div",jQRaw).html(),
+	 top2 = $("td.d2ndtxt > div",jQRaw).html(),
+	 top3 = $("td.d3rdtxt > div",jQRaw).html();
+	 console.log(top1,top2,top3)
+	magnumStartersTemp = jQRaw.find("table:contains('Special'):last td");
+	magnumConsolationTemp = jQRaw.find("table:contains('Consolation'):last td");
+	console.log(magnumStartersTemp)
+	magnumDateRaw = $("strong:contains('MAGNUM 4D'):first font",jQRaw);
+
+	debug(magnumStarters,10,"magnum Raw File");
+
+	// Get verify condition 
+	var magnumDrawDateVari = SITE_INFO.magnum.magnumDrawDateVari
+	var magnumResultVari = SITE_INFO.magnum.magnumResultVari
+
+	var magnumDraw = new Array(),
+	magnumTop =  [top1,top2,top3],
+	//magnum4DTop =  [top1,top2,top3],
+	magnumStarters = new Array(),
+	magnumConsolation = new Array();
 	
-	//var magnumDrawNo = getElementsByXPath("//b[parent::td[@width='50%']]",raw)
-	var magnumDrawNo = jQRawMagnum.find("*:contains('Draw No'):last").text();
-	var magnumDate = jQRawMagnum.find("tr:contains('Draw No'):last td:first").text();
-	//var mangnumTop3 = getElementsByXPath("//tr[@height='25']/td[@colspan='2' and position()=last()]/b",raw)
-	//var  magnumReuslt = getElementsByXPath("//td[@width='50%']",raw)
-	//var  magnumReuslt = getElementsByXPath("//td[@width='50%' and @valign='top']",raw)
-	var magnumSpecial = $(".resultbottom",jQRawMagnum);
-	//var magnumSpecial = jQRawMagnum.find("td:contains('Special'):last tr:not(:first) td");
-	var magnumCon = jQRawMagnum.find("table:contains('Consolation'):last tr:not(:first) td");
-	//var magnumCon = jQRawMagnum.find("table:contains('Consolation'):last tr:not(:first) td");
-	debug(magnumSpecial,10,"magnum3rd")
-	console.log(magnumSpecial)
-	/*
-	if(!magnum3rd){
-		failure(responeDiv,"magnum3rd Fail");
-		return;
-	}
-	if(!magnumDrawNo){
-		failure(responeDiv,"magnumDrawNo Fail");
-		return;
-	}
-	//debug(mangnumTop3.length,2,"mangnumTop3.length")
-	// debug(magnumDrawDate.length,2,"magnumDrawDate.length")
-	if(magnumSpecial.length!=magnumDrawNoVari|magnumCon.length!=magnumDrawNoVari){
-			debug("Failure",1,"Verification Magnum 4D")
-			failure(responeDiv,"special or Con fail");
-			return;
-		}else {	debug("!!!PASS!!!!",1,"Verification Magnum 4D")}
-	*/	
-	const magnumRegexp=/(?:dra[^\:]*?:\s)|\s*/ig
-	//const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
 	const getDateRegexp=/(\d+)\-(\d+)\-(\d+)/ig
-	
-	//var magnumSpecial = getElementsByXPath("descendant::b",magnumReuslt[0])
 
-	magnumDraw = new Array();
-	magnumTop3 = new Array();
-	//magnumStarters = jQuery.makeArray( magnumSpecial.text() );
-	magnumStarters = new Array();
-	magnumConsolation = new Array();
-	
+	magnumTop = [top1,top2,top3]
+	// var ii = 0;
+	// 	do {
+	// 		dd = magnumTop[ii].toString();
+	// 		magnumTop[ii] = dd.substring(2,5);
+	// 		ii += 1
+	// 	}while (ii < 3)
 
-	magnumDrawNo = magnumDrawNo.replace(magnumRegexp,'');
-	magnumDraw.push(magnumDrawNo,magnumDate)	
+	var iii = 1;
+		do {
+			magnumStarters.push(magnumStartersTemp[iii].innerHTML);
+			// console.log("her is it" + magnumStarters)
+			iii += 1
+		}while (iii < 11)
+
+	var iiii = 1;
+		do {
+			magnumConsolation.push(magnumConsolationTemp[iiii].innerHTML);
+			// console.log("her is it" + magnumConsolation)
+			iiii += 1
+		}while (iiii < 11)
 
 
-	magnumDate = getDateRegexp.exec(magnumDraw[1])
-	magnumDrawDate = new Date(magnumDate[3],magnumDate[2]-1,magnumDate[1])
-	DisplayDate = magnumDate[1]+"/"+magnumDate[2]+"/"+(magnumDate[3]-2000);
-	magnumDraw[1]=DisplayDate
-	// magnumDate = magnumDraw[1].match(getDateRegexp)
-	mangnumTop3 = magnumTop3.push(magnum1st,magnum2nd,magnum3rd)
-	//mangnumTop3.forEach(function(e,i){ magnumTop3.push(e.innerHTML) })	
-			
-	jQuery.each(magnumSpecial, function(i,val) {
-      var val = $(val).text()
-      if(i<10){
-	  magnumStarters.push(val)
-	}else if(i>12){
-		magnumConsolation.push(val)
-	}
-    });
-    /*
-	jQuery.each(magnumCon, function(i,val) {
-		 if(i<11){
-      var val = $(val).text()
-	  magnumConsolation.push(val)
-	}
-    });
-	*/
+	var DrawDate=getDateRegexp.exec(magnumDateRaw[1].innerHTML);
+		console.log(DrawDate)
+	magnumDrawDate = new Date(DrawDate[3],(DrawDate[2]-1),DrawDate[1])
+
+
+	console.log(magnumDraw)
+	magnumDraw = magnumDateRaw[2].innerHTML;
+
 	//populate date
 	var today = magnumDrawDate.getDate();
 	if(today<10){today = "0"+today};
 	var showDate= today+"-"+getDateMonth(magnumDrawDate)+"-"+magnumDrawDate.getFullYear();
 			
 	verticalText(showDate,getDateDayFull(magnumDrawDate));	
-
 	debug(magnumDraw,3,"magnumDraw")
 	 debug(magnumDrawDate,3,"magnumDrawDate")
-	 debug(magnumTop3,3,"magnumTop3")
+	 debug(magnumTop,3,"magnumTop")
 	 debug(magnumStarters,3,"magnumStarters")
 	 debug(magnumConsolation,3,"magnumConsolation")
-	 domBuildMagnum(magnumDraw,magnumDrawDate,magnumTop3,magnumStarters,magnumConsolation)
+	 domBuildMagnum(magnumDraw,magnumDrawDate,magnumTop,magnumStarters,magnumConsolation,showDate)
 		if(responeDiv){
 		responeDiv.innerHTML="<span class='systemInfo done' >Done</span>"
 		window.setTimeout(function(){removeButton(responeDiv)}, 1500);	
 		}
-	 //verticalText(magnumDraw[1]);
-
-	// if(responeDiv){responeDiv.parentNode.removeChild(responeDiv)}
-}
-// MAGNUM 4D function
-function magnum2(raw,responeDiv){
-	// Filltering unnessecery tag
-	//raw = raw.replace(/<\s?font[^>]*?>/ig,'')
-	//raw = raw.replace(/<\s?\/font\s?>/ig,'')
-	
-	debug(raw,10,"Magnum4D Raw File")
-	var jQRawMagnum = $(raw),
-	 magnum1st = jQRawMagnum.find("tr:contains('1st'):last td:last-child").text(),
-	 magnum2nd = jQRawMagnum.find("tr:contains('2nd'):last td:last-child").text(),
-	 magnum3rd = jQRawMagnum.find("tr:contains('3rd'):last td:last-child").text();
-	debug(magnum3rd,10,"magnum3rd")
-	//GM_log(magnum1st)
-
-	// Convert to html object
-		raw = createHTMLDocumentByString(raw);
-		
-	// Get verify condition 
-	var magnumDrawNoVari = SITE_INFO.magnum.magnumDrawNoVari
-	var magnumTop3Vari = SITE_INFO.magnum.magnumTop3Vari
-	var magnumReusltVari = SITE_INFO.magnum.magnumReusltVari
-	
-	// Xpath Elements
-	
-	//var magnumDrawNo = getElementsByXPath("//b[parent::td[@width='50%']]",raw)
-	var magnumDrawNo = jQRawMagnum.find("*:contains('Draw No'):last").text();
-	var magnumDate = jQRawMagnum.find("tr:contains('Draw No'):last td:last").text();
-	//var mangnumTop3 = getElementsByXPath("//tr[@height='25']/td[@colspan='2' and position()=last()]/b",raw)
-	//var  magnumReuslt = getElementsByXPath("//td[@width='50%']",raw)
-	//var  magnumReuslt = getElementsByXPath("//td[@width='50%' and @valign='top']",raw)
-	var magnumSpecial = jQRawMagnum.find("table:contains('Special'):last tr:not(:first) td");
-	var magnumCon = jQRawMagnum.find("table:contains('Consolation'):last tr:not(:first) td");
-	if(!magnum3rd){
-		failure(responeDiv,"magnum3rd Fail");
-		return;
-	}
-	if(!magnumDrawNo){
-		failure(responeDiv,"magnumDrawNo Fail");
-		return;
-	}
-	//debug(mangnumTop3.length,2,"mangnumTop3.length")
-	// debug(magnumDrawDate.length,2,"magnumDrawDate.length")
-	if(magnumSpecial.length!=magnumDrawNoVari|magnumCon.length!=magnumDrawNoVari){
-			debug("Failure",1,"Verification Magnum 4D")
-			failure(responeDiv,"special or Con fail");
-			return;
-		}else {	debug("!!!PASS!!!!",1,"Verification Magnum 4D")}
-		
-	const magnumRegexp=/(?:dra[^\:]*?:\s)|\s*/ig
-	const getDateRegexp=/(\d+)\/(\d+)\/(\d+)/ig
-	
-	//var magnumSpecial = getElementsByXPath("descendant::b",magnumReuslt[0])
-
-	magnumDraw = new Array();
-	magnumTop3 = new Array();
-	//magnumStarters = jQuery.makeArray( magnumSpecial.text() );
-	magnumStarters = new Array();
-	magnumConsolation = new Array();
-	
-
-	magnumDrawNo = magnumDrawNo.replace(magnumRegexp,'');
-	magnumDraw.push(magnumDrawNo,magnumDate)	
-
-
-	magnumDate = getDateRegexp.exec(magnumDraw[1])
-	magnumDrawDate = new Date(magnumDate[3],magnumDate[2]-1,magnumDate[1])
-	DisplayDate = magnumDate[1]+"/"+magnumDate[2]+"/"+(magnumDate[3]-2000);
-	magnumDraw[1]=DisplayDate
-	// magnumDate = magnumDraw[1].match(getDateRegexp)
-	mangnumTop3 = magnumTop3.push(magnum1st,magnum2nd,magnum3rd)
-	//mangnumTop3.forEach(function(e,i){ magnumTop3.push(e.innerHTML) })	
-			
-	jQuery.each(magnumSpecial, function(i,val) {
-      var val = $(val).text()
-	  magnumStarters.push(val)
-    });
-	jQuery.each(magnumCon, function(i,val) {
-      var val = $(val).text()
-	  magnumConsolation.push(val)
-    });
-	
-	//populate date
-	var today = magnumDrawDate.getDate();
-	if(today<10){today = "0"+today};
-	var showDate= today+"-"+getDateMonth(magnumDrawDate)+"-"+magnumDrawDate.getFullYear();
-			
-	verticalText(showDate,getDateDayFull(magnumDrawDate));	
-
-	debug(magnumDraw,3,"magnumDraw")
-	 debug(magnumDrawDate,3,"magnumDrawDate")
-	 debug(magnumTop3,3,"magnumTop3")
-	 debug(magnumStarters,3,"magnumStarters")
-	 debug(magnumConsolation,3,"magnumConsolation")
-	 domBuildMagnum(magnumDraw,magnumDrawDate,magnumTop3,magnumStarters,magnumConsolation)
-		if(responeDiv){
-		responeDiv.innerHTML="<span class='systemInfo done' >Done</span>"
-		window.setTimeout(function(){removeButton(responeDiv)}, 1500);	
-		}
-	 //verticalText(magnumDraw[1]);
-
-	// if(responeDiv){responeDiv.parentNode.removeChild(responeDiv)}
 }
 //TOTOSPORT function
 function toto(raw,responeDiv){

@@ -33,14 +33,30 @@ function fillTd(obj,displayResult){
 	
 	}
 
+var getDateCustom = function(date){
+	console.log(date);
+	var day = date.getDate(),
+	month = date.getMonth() + 1,
+	year = date.getFullYear();
+	year = year.toString().substring(2,4);
 
+	console.log(day,month,year);
+	return day + "/" + month + "/" + year
+};
 function buildPmpDate(draw,date){
 // draw[0] : Draw number, draw[1] : Draw Date, draw[2] draw venue
-return 	"<dl><dt style='width:130px'><strong>"+drawNo+"&nbsp;</strong><big>"+draw.toLocaleDateString()+"</big></dt><dt style='width:130px'><strong>"+drawDate+"&nbsp;</strong><big>"+draw[1]+"</big></dt></dl><dl><dt ><strong>&nbsp;&nbsp;</strong><big>&nbsp;</big></dt><dt><strong>&nbsp;&nbsp;</strong><big>"+getDateDay(date)+"</big></dt></dl>"
+return "<dt style='width:130px'><strong>" +drawNo + "&nbsp;</strong><big>" +draw+"</big></dt><dt style='width:115px'><strong>" + drawDate + "&nbsp;</strong><big>" +getDateCustom(date) + "</big></dt><dt><strong></strong><big>"+ getDateDay(date) + "</big></dt>"
+
+// return 	"<dl><dt style='width:130px'><strong>"+drawNo+"&nbsp;</strong><big>"+getDateCustom(date)+"</big></dt><dt style='width:130px'><strong>"+drawDate+"&nbsp;</strong><big>"+draw[1]+"</big></dt></dl><dl><dt><strong>&nbsp;&nbsp;</strong><big>&nbsp;</big></dt><dt><strong>&nbsp;&nbsp;</strong><big>"+getDateDay(date)+"</big></dt></dl>"
 }
 function buildDate(draw,date){
 
 return "<dt style='width:130px'><strong>" +drawNo + "&nbsp;</strong><big>" +draw[0] +"</big></dt><dt style='width:115px'><strong>" + drawDate + "&nbsp;</strong><big>" + draw[1] + "</big></dt><dt><strong></strong><big>"+ getDateDay(date) + "</big></dt>"
+
+}
+function buildDateMagnum(draw,date,showDate){
+
+return "<dt style='width:130px'><strong>" +drawNo + "&nbsp;</strong><big>" +draw +"</big></dt><dt style='width:115px'><strong>" + drawDate + "&nbsp;</strong><big>" + showDate + "</big></dt><dt><strong></strong><big>"+ getDateDay(date) + "</big></dt>"
 
 }
 function buildJackpotDate(draw,date){
@@ -48,14 +64,15 @@ function buildJackpotDate(draw,date){
 return "<dt style='width:110px'><strong>" +drawNo + "&nbsp;</strong><big>" +draw[0] +"</big></dt><dt style='width:110px'><strong>" + drawDate + "&nbsp;</strong><big>" + draw[1] + "</big></dt><dt><strong></strong><big>"+ getDateDay(date) + "</big></dt>"
 
 }
-function domBuildMagnum(draw,date,top3,sep,con){
+function domBuildMagnum(draw,date,top3,sep,con,showDate){
 	
 	var dateContainer=document.getElementById("magnumDate")
 	var top3Container=document.getElementById("magnumTop3")
 	var sepContainer=document.getElementById("magnumSpe")
 	var conContainer=document.getElementById("magnumCon")
 	
-	dateContainer.innerHTML=buildDate(draw,date)
+	// dateContainer.innerHTML=buildDateMagnum(draw,date,showDate)
+	dateContainer.innerHTML=buildPmpDate(draw,date)
 	
 	sep.forEach(function(e){
 	var temp = new h4Holder()
